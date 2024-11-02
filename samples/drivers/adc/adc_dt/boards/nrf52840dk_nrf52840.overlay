@@ -7,7 +7,7 @@
 
 / {
 	zephyr,user {
-		io-channels = <&adc 0>, <&adc 1>, <&adc 7>;
+		io-channels = <&adc_ext 0>;
 	};
 };
 
@@ -43,5 +43,31 @@
 		zephyr,input-positive = <NRF_SAADC_AIN6>; /* P0.30 */
 		zephyr,input-negative = <NRF_SAADC_AIN7>; /* P0.31 */
 		zephyr,resolution = <12>;
+	};
+};
+
+&i2c0 {
+	status = "okay";
+	clock-frequency = <I2C_BITRATE_STANDARD>;
+
+	adc_ext: mcp3421@68 {
+		compatible = "microchip,mcp3421";
+		reg = <0x68>;
+		#io-channel-cells = <1>;
+	};
+};
+
+&adc_ext {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	channel@0 {
+		reg = <0>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <18>;
+		zephyr,differential;
 	};
 };

@@ -1,0 +1,12 @@
+# MCP342X ADC configuration options
+
+# Copyright (c) 2023 Diodes Delight.
+# SPDX-License-Identifier: Apache-2.0
+
+config ADC_MCP342X
+	bool "Microchip MCP342X ADC driver"
+	depends on DT_HAS_MICROCHIP_MCP3421_ENABLED
+	select I2C
+	select ADC_CONFIGURABLE_INPUTS
+	help
+	  Enable the driver implementation for the MCP342X series
